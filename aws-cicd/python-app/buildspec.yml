@@ -9,7 +9,7 @@ env:
 phases:
   install:
     runtime-versions:
-      python:3.11
+      python: 3.11
       
   pre_build:
     commands:
@@ -20,11 +20,8 @@ phases:
        - cd aws-cicd/python-app
        - echo "Building Docker Image"
        - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/python-flask-app:latest" .
-       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/python-flask-app:latest"
-       
+       - docker build -t "$DOCKER_REGISTRY_USERNAME/python-app:latest" .
+       - docker push "$DOCKER_REGISTRY_USERNAME/python-app:latest"
   post_build:
     commands:
       - echo "Build is Successfull"
-      
-       
