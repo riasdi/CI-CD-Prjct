@@ -14,14 +14,18 @@ phases:
   pre_build:
     commands:
       - pip install -r aws-cicd/python-app/requirements.txt
+      # Sanitize environment variables in the pre_build phase
+      - export CLEANED_USERNAME=$(echo "$DOCKER_REGISTRY_USERNAME" | tr -d '\n')
+      - export CLEANED_PASSWORD=$(echo "$DOCKER_REGISTRY_PASSWORD" | tr -d '\n')
       
   build:
     commands:
        - cd aws-cicd/python-app
        - echo "Building Docker Image"
-       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-       - docker build -t "$DOCKER_REGISTRY_USERNAME/python-app:latest" .
-       - docker push "$DOCKER_REGISTRY_USERNAME/python-app:latest"
+       - echo "$CLEANED_PASSWORD" | docker login -u "$CLEANED_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+       - docker build -t "$CLEANED_USERNAME/python-app:latest" .
+       - docker push "$CLEANED_USERNAME/python-app:latest"
+       
   post_build:
     commands:
-      - echo "Build is Successfull"
+      - echo "Build is Successful"
