@@ -1,7 +1,7 @@
 # The base image
 FROM python:3.8
 
-#creating a work directory app
+# Creating a work directory app
 WORKDIR /app
 
 #copy requirement file
