@@ -29,3 +29,8 @@ phases:
   post_build:
     commands:
       - echo "Build is Successful"
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: aws-cicd/python-app
