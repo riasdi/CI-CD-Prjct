@@ -1,6 +1,6 @@
 version: 0.2
 
-env: 
+env:
   parameter-store:
     DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
     DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
@@ -10,27 +10,23 @@ phases:
   install:
     runtime-versions:
       python: 3.11
-      
   pre_build:
     commands:
+      - echo "Installing dependencies..."
       - pip install -r aws-cicd/python-app/requirements.txt
-      # Sanitize environment variables in the pre_build phase
-      - export CLEANED_USERNAME=$(echo "$DOCKER_REGISTRY_USERNAME" | tr -d '\n')
-      - export CLEANED_PASSWORD=$(echo "$DOCKER_REGISTRY_PASSWORD" | tr -d '\n')
-      
   build:
     commands:
-       - cd aws-cicd/python-app
-       - echo "Building Docker Image"
-       - echo "$CLEANED_PASSWORD" | docker login -u "$CLEANED_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-       - docker build -t "$CLEANED_USERNAME/python-app:latest" .
-       - docker push "$CLEANED_USERNAME/python-app:latest"
-       
+      - echo "Running tests..."
+      - cd aws-cicd/python-app
+      - echo "Building Docker image..."
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      - docker build -t "$DOCKER_REGISTRY_USERNAME/python-flask-app:latest" .
+      - docker push "$DOCKER_REGISTRY_USERNAME/python-flask-app:latest"
   post_build:
     commands:
-      - echo "Build is Successful"
+      - echo "Build completed successfully!"
 
 artifacts:
   files:
     - '**/*'
-  base-directory: aws-cicd/python-app
+  base-directory: ../python-app
