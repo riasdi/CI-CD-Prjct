@@ -28,8 +28,5 @@ phases:
     commands:
       - echo "Build completed successfully!"
       
-artifacts:
-  files:
-    - '**/*'
-  base-directory: 'aws-cicd/python-app'
+
 
