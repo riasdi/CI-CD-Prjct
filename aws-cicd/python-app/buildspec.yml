@@ -25,6 +25,8 @@ phases:
   post_build:
     commands:
       - echo "Build completed successfully!"
+      - echo "Current directory: $(pwd)"
+      - ls -la
 
 artifacts:
   files:
