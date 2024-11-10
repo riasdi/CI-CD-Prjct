@@ -31,5 +31,5 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: 'python-app'
+  base-directory: 'aws-cicd/python-app'
 
