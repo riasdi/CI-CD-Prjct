@@ -27,7 +27,7 @@ phases:
       - echo "Build completed successfully!"
       
 artifacts:
-  base-directory: aws-cicd/python-app  # Directory from where artifacts will be uploaded
   files:
     - '**/*'
+  base-directory: aws-cicd/python-app
 
